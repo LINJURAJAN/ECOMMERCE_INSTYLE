@@ -1,0 +1,565 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>InStyle | Home</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background-color: #fff;
+            color: #222;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: #fff;
+            padding: 20px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-left {
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: 1px;
+            color: #000;
+        }
+
+        .nav-right a {
+            margin-left: 25px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-right a:hover {
+            color: #000;
+            border-bottom: 2px solid #000;
+            padding-bottom: 3px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: url("{% static 'images/mirror.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            position: relative;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .hero h1,
+        .hero h2,
+        .hero p,
+        .hero button {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hero h2 {
+            font-size: 26px;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .hero p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .hero button {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .hero button:hover {
+            background: #333;
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            margin: 80px 0 40px;
+            font-size: 30px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        /* Category Section */
+        .category-section {
+            margin: 15px 0;
+            padding: 0 80px;
+            
+        }
+
+        .category-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .category-header h2 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .category-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #6c63ff, #5a4bff);
+            border-radius: 2px;
+        }
+
+        .category-header p {
+            font-size: 16px;
+            color: #666;
+            margin-top: 20px;
+        }
+
+        /* Product Grid */
+        .product-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 40px;
+            padding: 0 0 60px 0;
+        }
+
+        .product-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+        }
+
+        .product-card h3 {
+            font-size: 18px;
+            margin: 15px 0 5px;
+            font-weight: 500;
+            color: #000;
+        }
+
+        .product-card p {
+            font-size: 15px;
+            color: #555;
+            margin: 0 15px 10px;
+        }
+
+        .price {
+            color: #000;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .cart-btn {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 12px 22px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+            width: calc(100% - 40px);
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .cart-btn:hover {
+            background: #333;
+        }
+
+        footer {
+            background: #f7f7f7;
+            text-align: center;
+            padding: 25px;
+            font-size: 14px;
+            color: #555;
+            border-top: 1px solid #eee;
+        }
+
+
+
+
+.about-carousel {
+  width: 100%;
+  max-width: 1100px;
+  margin: 60px auto;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.3);
+}
+
+.carousel-container {
+  display: flex;
+  transition: transform 1s ease-in-out;
+  animation: slideAnimation 25s infinite;
+}
+
+.carousel-slide {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 100%;
+  background: linear-gradient(120deg, #1a1a1a, #292929);
+  color: #fff;
+  padding: 40px 60px;
+  box-sizing: border-box;
+}
+
+.carousel-text {
+  flex: 1;
+  padding-right: 40px;
+}
+
+.carousel-text h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #f3d27a;
+  margin-bottom: 10px;
+}
+
+.carousel-text .tagline {
+  font-size: 16px;
+  font-style: italic;
+  color: #d9c57a;
+  margin-bottom: 20px;
+}
+
+.carousel-text p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #f1f1f1;
+}
+
+.highlight {
+  color: #f3d27a;
+  font-weight: 600;
+}
+
+.carousel-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.carousel-image img {
+  width: 100%;
+  max-width: 400px;
+  height: 270px;
+  object-fit: cover;
+  border-radius: 15px;
+  border: 2px solid #f3d27a;
+}
+
+/* Slower and smoother carousel animation */
+@keyframes slideAnimation {
+  0%, 25% { transform: translateX(0); }
+  30%, 55% { transform: translateX(-100%); }
+  60%, 85% { transform: translateX(-200%); }
+  90%, 100% { transform: translateX(0); }
+}
+
+/* Responsive fix */
+@media (max-width: 768px) {
+  .carousel-slide {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .carousel-image img {
+    max-width: 90%;
+    height: auto;
+    margin-top: 20px;
+  }
+}
+
+
+
+
+
+
+
+
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-left">INSTYLE</div>
+        <div class="nav-right">
+            <form action="{% url 'home' %}" method="get" style="display:inline-flex; align-items:center; gap:10px; margin-right:20px;">
+                <input type="text" name="q" value="{{ q|default:'' }}" placeholder="Search products" style="padding:8px 10px; border:1px solid #ddd; border-radius:2px;">
+                <button type="submit" style="background:#000; color:#fff; border:none; padding:8px 14px; border-radius:2px; cursor:pointer;">Search</button>
+            </form>
+            <a href="{% url 'home' %}">Home</a>
+            {% if user.is_authenticated %}
+                <span style="color:#666; margin:0 10px;">Welcome, {{ user.username }}!</span>
+                <form action="{% url 'logout' %}" method="post" style="display:inline; margin:0 10px;">
+                    {% csrf_token %}
+                    <button type="submit" style="background:none; border:none; color:#333; font-weight:500; cursor:pointer; text-decoration:none;">Logout</button>
+                </form>
+                <!-- <a href="{% url 'login' %}">Admin</a> -->
+                <a href="{% url 'cart' %}">Cart</a>
+            {% else %}
+                <a href="{% url 'userlogin' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+                <!-- <a href="{% url 'login' %}">Admin</a> -->
+                <a href="{% url 'userlogin' %}?next={% url 'cart' %}">Cart</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Adorn Yourself in Timeless Beauty</h1>
+        <h2>Be Iconic. Be You. Be InStyle.</h2>
+        <p>Shop exclusive styles and premium quality products at unbeatable prices.</p>
+        <button>Shop Now</button>
+    </section>
+
+
+
+
+
+
+
+    <!-- Product Sections by Category -->
+    {% if q %}
+        <!-- Search Results -->
+        <h2 class="section-title">Search Results for "{{ q }}"</h2>
+        {% for category, products_list in products_by_category.items %}
+            {% if products_list %}
+            <div class="category-section">
+                <div class="category-header">
+                    <h2>{{ category|title }}s</h2>
+                </div>
+                <div class="product-container">
+                    {% for product in products_list %}
+                    <div class="product-card">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        <h3>{{ product.name }}</h3>
+                        <p class="price">₹{{ product.price }}</p>
+                        <p>{{ product.description|truncatewords:10 }}</p>
+                        <form action="{% url 'add_to_cart' product.id %}" method="post" style="margin:0;">
+                            {% csrf_token %}
+                            <button type="submit" class="cart-btn">Add to Cart</button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <!-- Necklaces Section -->
+        {% if products_by_category.necklace %}
+        <div class="category-section">
+            <div class="category-header">
+                <h2>Necklaces</h2>
+                <p>Elegant pieces that frame your beauty</p>
+            </div>
+            <div class="product-container">
+                {% for product in products_by_category.necklace %}
+                <div class="product-card">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h3>{{ product.name }}</h3>
+                    <p class="price">₹{{ product.price }}</p>
+                    <p>{{ product.description|truncatewords:10 }}</p>
+                    <form action="{% url 'add_to_cart' product.id %}" method="post" style="margin:0;">
+                        {% csrf_token %}
+                        <button type="submit" class="cart-btn">Add to Cart</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        <!-- Bangles Section -->
+        {% if products_by_category.bangle %}
+        <div class="category-section">
+            <div class="category-header">
+                <h2>Bangles</h2>
+                <p>Classic circles of elegance</p>
+            </div>
+            <div class="product-container">
+                {% for product in products_by_category.bangle %}
+                <div class="product-card">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h3>{{ product.name }}</h3>
+                    <p class="price">₹{{ product.price }}</p>
+                    <p>{{ product.description|truncatewords:10 }}</p>
+                    <form action="{% url 'add_to_cart' product.id %}" method="post" style="margin:0;">
+                        {% csrf_token %}
+                        <button type="submit" class="cart-btn">Add to Cart</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        <!-- Earrings Section -->
+        {% if products_by_category.earring %}
+        <div class="category-section">
+            <div class="category-header">
+                <h2>Earrings</h2>
+                <p>Sparkling accents for your ears</p>
+            </div>
+            <div class="product-container">
+                {% for product in products_by_category.earring %}
+                <div class="product-card">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h3>{{ product.name }}</h3>
+                    <p class="price">₹{{ product.price }}</p>
+                    <p>{{ product.description|truncatewords:10 }}</p>
+                    <form action="{% url 'add_to_cart' product.id %}" method="post" style="margin:0;">
+                        {% csrf_token %}
+                        <button type="submit" class="cart-btn">Add to Cart</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+
+
+        <!-- Bracelets Section -->
+        {% if products_by_category.bracelet %}
+        <div class="category-section">
+            <div class="category-header">
+                <h2>Bracelets</h2>
+                <p>Sophisticated wrist adornments</p>
+            </div>
+            <div class="product-container">
+                {% for product in products_by_category.bracelet %}
+                <div class="product-card">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h3>{{ product.name }}</h3>
+                    <p class="price">₹{{ product.price }}</p>
+                    <p>{{ product.description|truncatewords:10 }}</p>
+                    <form action="{% url 'add_to_cart' product.id %}" method="post" style="margin:0;">
+                        {% csrf_token %}
+                        <button type="submit" class="cart-btn">Add to Cart</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+
+
+
+    <section class="about-carousel">
+  <div class="carousel-container">
+    <div class="carousel-slide">
+      <div class="carousel-text">
+        <h2>The InStyle</h2>
+        <p class="tagline">Where Elegance Finds Its Spark ✨</p>
+        <p>
+          Discover a world of timeless jewelry imported from 
+          <span class="highlight">Italy, Dubai, and Thailand</span>.
+          Crafted with authentic gemstones and premium metals,
+          every piece reflects <span class="highlight">trust, beauty, and sophistication</span>.
+        </p>
+      </div>
+      <div class="carousel-image">
+        <img src="{% static 'images/leaf.jpg' %}" alt="Jewelry Collection">
+      </div>
+    </div>
+
+    <div class="carousel-slide">
+      <div class="carousel-text">
+        <h2>Imported Luxury</h2>
+        <p class="tagline">Crafted Beyond Borders 🌍</p>
+        <p>
+          From the elegance of Italian artistry to the brilliance of Dubai’s gold,
+          our designs blend <span class="highlight">global charm with lasting quality</span>.
+        </p>
+      </div>
+      <div class="carousel-image">
+        <img src="{% static 'images/leaves.jpg' %}" alt="Luxury Jewelry">
+      </div>
+    </div>
+
+    <div class="carousel-slide">
+      <div class="carousel-text">
+        <h2>Trusted by Thousands</h2>
+        <p class="tagline">Where Every Sparkle Tells a Story 💫</p>
+        <p>
+          With a legacy of <span class="highlight">quality and trust</span>,
+          The InStyle is a name that shines in the hearts of our loyal customers.
+        </p>
+      </div>
+      <div class="carousel-image">
+        <img src="{% static 'images/stunning.jpg' %}" alt="Customer Trust">
+      </div>
+    </div>
+  </div>
+</section>
+    <footer>
+        © 2025 InStyle Trends. All rights reserved.
+    </footer>
+
+</body>
+
+</html>

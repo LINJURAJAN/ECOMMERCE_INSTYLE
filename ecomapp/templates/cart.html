@@ -1,0 +1,482 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart | InStyle</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            
+            color: #222;
+            background-image: 
+             linear-gradient(rgba(24, 22, 22, 0.5), rgba(20, 19, 19, 0.5)), 
+            url("{% static 'images/cart.jpg' %}");
+        }
+
+        /* Navbar */
+        nav {
+            background-color: #fff;
+            padding: 20px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-left {
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: 1px;
+            color: #000;
+        }
+
+        .nav-right a {
+            margin-left: 25px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-right a:hover {
+            color: #000;
+            border-bottom: 2px solid #000;
+            padding-bottom: 3px;
+        }
+
+        /* Main Cart Layout */
+        .cart-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 40px;
+        }
+
+        /* Left Section */
+        .cart-items {
+            flex: 2;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .cart-header {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+        }
+
+        .cart-item img {
+            width: 100px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        .cart-details {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .cart-details h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .cart-details p {
+            margin: 6px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity input {
+            width: 55px;
+            text-align: center;
+            padding: 6px;
+            margin: 0 12px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
+            background: #fff;
+            transition: border-color 0.2s ease;
+        }
+
+        .quantity input:focus {
+            outline: none;
+            border-color: #000;
+        }
+
+        .quantity button {
+            background: #fff;
+            border: 1.5px solid #ddd;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .quantity button:hover {
+            background: #f8f9fa;
+            border-color: #000;
+            transform: scale(1.05);
+        }
+
+        .quantity button:active {
+            transform: scale(0.95);
+        }
+
+        .quantity button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+
+        .price {
+            font-weight: 600;
+            font-size: 16px;
+            color: #000;
+            text-align: right;
+            transition: color 0.2s ease;
+        }
+
+        .price.updating {
+            color: #6c63ff;
+        }
+
+        /* Right Section */
+        .order-summary {
+            flex: 1;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 25px;
+            background: #fafafa;
+            height: fit-content;
+        }
+
+        .order-summary h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .order-summary p {
+            font-size: 15px;
+            margin: 6px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .total {
+            border-top: 1px solid #ccc;
+            margin-top: 15px;
+            padding-top: 10px;
+            font-weight: 700;
+            font-size: 17px;
+        }
+
+        .checkout-btn {
+            background: #000;
+            color: #fff;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 15px;
+            transition: background 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: #333;
+        }
+
+        .promo-box {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .promo-box input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .empty {
+            text-align: center;
+            font-size: 18px;
+            color: #555;
+            margin-top: 100px;
+        }
+
+        footer {
+            background: #f7f7f7;
+            text-align: center;
+            padding: 25px;
+            font-size: 14px;
+            color: #555;
+            border-top: 1px solid #eee;
+            margin-top: 150px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-left">INSTYLE</div>
+        <div class="nav-right">
+            <a href="{% url 'home' %}">Home</a>
+            {% if user.is_authenticated %}
+                <span style="color:#666; margin:0 10px;">Welcome, {{ user.username }}!</span>
+                <form action="{% url 'logout' %}" method="post" style="display:inline; margin:0 10px;">
+                    {% csrf_token %}
+                    <button type="submit" style="background:none; border:none; color:#333; font-weight:500; cursor:pointer; text-decoration:none;">Logout</button>
+                </form>
+                <a href="{% url 'login' %}">Admin</a>
+                <a href="{% url 'cart' %}">Cart</a>
+            {% else %}
+                <a href="{% url 'userlogin' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+                <a href="{% url 'login' %}">Admin</a>
+                <a href="{% url 'userlogin' %}?next={% url 'cart' %}">Cart</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="cart-wrapper">
+        <!-- Left Section -->
+        <div class="cart-items">
+            <div class="cart-header">Your Bag</div>
+
+            {% if cart_items %}
+                {% for item in cart_items %}
+                    <div class="cart-item">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                        <div class="cart-details">
+                            <h3>{{ item.product.name }}</h3>
+                            <p>₹{{ item.product.price }}</p>
+                            <p>Quantity:
+                                <span class="quantity">
+                                    <button type="button" class="btn-dec" data-item="{{ item.id }}">−</button>
+                                    <input type="number" value="{{ item.quantity }}" min="1" readonly data-item="{{ item.id }}">
+                                    <button type="button" class="btn-inc" data-item="{{ item.id }}">+</button>
+                                </span>
+                            </p>
+                            <form action="{% url 'remove_cart_item' item.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="remove-btn" type="submit">Remove</button>
+                            </form>
+                        </div>
+                        <div class="price" id="line-{{ item.id }}">₹{{ item.total_price }}</div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="empty">Your cart is empty. Start shopping to add your favorite styles!</p>
+            {% endif %}
+        </div>
+
+        <!-- Right Section -->
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+            <p><span>Product Total</span> <span id="product-total">₹{{ total_price }}</span></p>
+            <p><span>Delivery</span> <span>FREE</span></p>
+            <p class="total"><span>Total</span> <span id="cart-total">₹{{ total_price }}</span></p>
+
+            <form action="{% url 'checkout' %}" method="post" onsubmit="alert('Proceeding to checkout...');">
+                {% csrf_token %}
+                <button type="submit" class="checkout-btn">Proceed to Checkout</button>
+            </form>
+
+            <a href="{% url 'download_invoice' %}" class="checkout-btn" style="background:#fff; color:#000; border:1px solid #000; margin-top:10px; text-decoration:none; display:inline-block; text-align:center;">Download Invoice</a>
+
+            <div class="promo-box">
+                <h3>Promo Code</h3>
+                <input type="text" placeholder="Enter code">
+                <button class="checkout-btn" style="background:#333;">Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2025 InStyle Trends. All rights reserved.
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle increment buttons
+            document.querySelectorAll('.btn-inc').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const itemId = this.getAttribute('data-item');
+                    updateQuantity(itemId, 'inc');
+                });
+            });
+
+            // Handle decrement buttons
+            document.querySelectorAll('.btn-dec').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const itemId = this.getAttribute('data-item');
+                    updateQuantity(itemId, 'dec');
+                });
+            });
+
+            function updateQuantity(itemId, action) {
+                // Get CSRF token from form or cookie
+                let csrfToken = null;
+                const csrfInput = document.querySelector('[name=csrfmiddlewaretoken]');
+                if (csrfInput) {
+                    csrfToken = csrfInput.value;
+                } else {
+                    // Fallback: get from cookies
+                    const name = 'csrftoken';
+                    const cookies = document.cookie.split(';');
+                    for (let cookie of cookies) {
+                        const [key, value] = cookie.trim().split('=');
+                        if (key === name) {
+                            csrfToken = value;
+                            break;
+                        }
+                    }
+                }
+                
+                if (!csrfToken) {
+                    alert('CSRF token not found. Please refresh the page.');
+                    return;
+                }
+                
+                // Create form data
+                const formData = new FormData();
+                formData.append('action', action);
+                formData.append('csrfmiddlewaretoken', csrfToken);
+
+                // Disable buttons during update
+                const buttons = document.querySelectorAll(`[data-item="${itemId}"]`);
+                buttons.forEach(btn => btn.disabled = true);
+
+                // Make AJAX request
+                fetch(`/cart/update/${itemId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        // Update quantity input
+                        const itemElement = document.querySelector(`[data-item="${itemId}"]`).closest('.cart-item');
+                        const input = itemElement ? itemElement.querySelector('input[data-item]') : null;
+                        
+                        if (data.removed) {
+                            // Item was removed, fade out and remove
+                            itemElement.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                            itemElement.style.opacity = '0';
+                            itemElement.style.transform = 'translateX(-20px)';
+                            setTimeout(() => {
+                                itemElement.remove();
+                                // Check if cart is empty
+                                const remainingItems = document.querySelectorAll('.cart-item');
+                                if (remainingItems.length === 0) {
+                                    const cartItems = document.querySelector('.cart-items');
+                                    cartItems.innerHTML = '<div class="cart-header">Your Bag</div><p class="empty">Your cart is empty. Start shopping to add your favorite styles!</p>';
+                                }
+                            }, 300);
+                        } else if (itemElement && input) {
+                            // Update quantity from server response
+                            if (data.quantity !== undefined && data.quantity > 0) {
+                                input.value = data.quantity;
+                            } else {
+                                // Fallback: increment/decrement based on action
+                                const currentQty = parseInt(input.value);
+                                const newQty = action === 'inc' ? currentQty + 1 : Math.max(1, currentQty - 1);
+                                input.value = newQty;
+                            }
+                            
+                            // Update line total with animation
+                            const priceElement = document.getElementById(`line-${itemId}`);
+                            priceElement.classList.add('updating');
+                            priceElement.textContent = `₹${data.line_total.toFixed(2)}`;
+                            
+                            setTimeout(() => {
+                                priceElement.classList.remove('updating');
+                            }, 300);
+                        }
+
+                        // Update cart totals with animation
+                        const productTotalEl = document.getElementById('product-total');
+                        const cartTotalEl = document.getElementById('cart-total');
+                        
+                        productTotalEl.style.transition = 'color 0.3s ease';
+                        cartTotalEl.style.transition = 'color 0.3s ease';
+                        productTotalEl.style.color = '#6c63ff';
+                        cartTotalEl.style.color = '#6c63ff';
+                        
+                        productTotalEl.textContent = `₹${data.total_price.toFixed(2)}`;
+                        cartTotalEl.textContent = `₹${data.total_price.toFixed(2)}`;
+                        
+                        setTimeout(() => {
+                            productTotalEl.style.color = '';
+                            cartTotalEl.style.color = '';
+                        }, 400);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating cart:', error);
+                    alert('Failed to update cart. Please try again.');
+                })
+                .finally(() => {
+                    // Re-enable buttons
+                    buttons.forEach(btn => btn.disabled = false);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

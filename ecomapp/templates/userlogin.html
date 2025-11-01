@@ -1,0 +1,165 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Login | EcomWeb</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image:  linear-gradient(rgba(14, 13, 13, 0.5), rgba(20, 19, 19, 0.5)), 
+            url("{% static 'images/somany.jpg' %}") ;
+            background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+            
+            
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background: #171616a5;
+            width: 400px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+            color: #eed9d9;
+            font-size: 26px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 6px;
+            font-size: 15px;
+            color: #b7aeae;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: border 0.3s;
+            background: #3c3c3e5b;
+            color: white;
+
+        }
+
+        input:focus {
+            border-color: #282626;
+            
+        }
+
+        button {
+            /* background-color: #ff4c29; */
+            background-color: #ec2121;
+            border: none;
+            padding: 12px;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #e03e20;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #c47363;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+            color:#e03e20;
+        }
+        p{
+            margin-top: 15px;
+            font-size: 14px;
+            color: #fffefe;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .info {
+            color: #0b5;
+            background: #e8f9f0;
+            border: 1px solid #bdebd6;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>User Login</h2>
+
+        {% if request.user.is_authenticated %}
+            <div class="info">You are logged in as {{ request.user.username }}.</div>
+            <form action="{% url 'logout' %}" method="post" style="margin-bottom:16px;">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% endif %}
+
+        {% if request.GET.next or next %}
+            <div class="info">You need to login first to access your cart.</div>
+        {% endif %}
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.GET.next|default:next|default:'' }}">
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Enter your username" required>
+
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter your password" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="register-link">
+            <p>Don’t have an account? <a href="{% url 'register' %}">Register</a></p>
+        </div>
+    </div>
+
+</body>
+</html>

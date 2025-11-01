@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: 
+            linear-gradient(rgba(24, 22, 22, 0.5), rgba(20, 19, 19, 0.5)), url("https://t3.ftcdn.net/jpg/02/71/58/16/360_F_271581697_8wjthz94dO3v9BKcf8f53qsKrEv8ChMB.jpg") ;
+            /* background: #1f1f1f; */
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ebeff0;
+            font-weight: 600;
+            margin-top: 30px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+            background: #121111ea;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .header a {
+            background: linear-gradient(135deg, #151516, #29292b);
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .header a:hover {
+            background: #485648;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        th {
+            background: #f0f2f7;
+            text-align: left;
+            padding: 14px 12px;
+            font-weight: 600;
+            color: #111010;
+            font-size: 15px;
+        }
+
+        td {
+            padding: 14px 12px;
+            border-top: 1px solid #eee;
+            vertical-align: middle;
+            font-size: 14px;
+            color: #aca6a6;
+        }
+
+        tr:hover {
+            background-color: #67a11c22;
+            transition: 0.2s;
+        }
+
+        img {
+            border-radius: 10px;
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
+        .actions a {
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            margin-right: 8px;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .actions a:first-child {
+            background: #485648;
+            color: white;
+        }
+
+        .actions a:last-child {
+            background: #4924205c;
+            color: white;
+        }
+
+        .actions a:hover {
+            opacity: 0.85;
+            transform: scale(1.05);
+        }
+
+        /* subtle animation */
+        .container {
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+
+    <div class="container">
+        <div class="header">
+            <h2 style="margin: 0; color:#e9dede;">Products</h2>
+            <a href="{% url 'add_product' %}">+ Add Product</a>
+        </div>
+
+        <table>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+            {% for product in products %}
+            <tr>
+                <td><img src="{{ product.image.url }}" alt="Product"></td>
+                <td>{{ product.name }}</td>
+                <td>${{ product.price }}</td>
+                <td class="actions">
+                    <a href="{% url 'edit_product' product.id %}">Edit</a>
+                    <a href="{% url 'delete_product' product.id %}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
+

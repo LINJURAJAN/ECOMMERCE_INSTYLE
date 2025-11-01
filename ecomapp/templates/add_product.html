@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url("https://t3.ftcdn.net/jpg/04/60/44/08/360_F_460440876_a8lkfz8UHz64eDPFzmSJJZ55UQBNiC0a.jpg") center/cover no-repeat;
+            background-color: #f8f9fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #4b49494a;
+            width: 90%;
+            max-width: 900px;
+            margin-top: 50px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        h1 {
+            text-align: left;
+            font-weight: 600;
+            color: #e0e4e6;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #dcdde1;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #423e3e;
+            color:white
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #6c63ff;
+            box-shadow: 0 0 5px rgba(108, 99, 255, 0.3);
+        }
+
+        textarea {
+            resize: none;
+            height: 120px;
+        }
+
+        input[type="file"] {
+            background: #423e3e;
+            border: 2px dashed #ccc;
+            padding: 12px 14px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            color:rgb(134, 121, 121)
+        }
+
+        input[type="file"]:hover {
+            border-color: #a2a2a6;
+            /* background: #f0f1ff; */
+        }
+
+        button {
+            background: linear-gradient(135deg, #6c63ff, #5a4bff);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            align-self: flex-end;
+            width: 180px;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #5a4bff, #3d36d4);
+            transform: scale(1.03);
+        }
+
+        .file-label {
+            font-size: 14px;
+            color: #e2d5d5;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Small note text */
+        .note {
+            color: #888;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Add to Inventory</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Product Name" required>
+            <textarea name="description" placeholder="Product Description"></textarea>
+            <input type="number" step="0.01" name="price" placeholder="Price (₹)" required>
+            
+            <select name="category" required style="width: 100%; padding: 12px 14px; border: 1px solid #dcdde1; border-radius: 10px; font-size: 15px; font-family: 'Poppins', sans-serif; background: #423e3e; color: white; cursor: pointer;">
+                <option value="" disabled selected>Select Category</option>
+                <option value="necklace">Necklace</option>
+                <option value="earring">Earring</option>
+                <option value="bangle">Bangle</option>
+                <option value="bracelet">Bracelet</option>
+            </select>
+            
+            <label class="file-label">Upload Product Image</label>
+            <input type="file" name="image" required>
+
+            <button type="submit">Add Product</button>
+        </form>
+    </div>
+
+</body>
+</html>
